@@ -1,0 +1,39 @@
+﻿@model Project_Final.Models.Reply
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="text-center">Create Reply</h1>
+
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Content" class="control-label">Reply Content:</label>
+                <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MessageId" class="control-label">Select Message:</label>
+                <select asp-for="MessageId" class="form-control" asp-items="ViewBag.MessageId"></select>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Create Reply</button>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

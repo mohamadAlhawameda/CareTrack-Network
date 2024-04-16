@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Project_Final.Models.Visits>
+
+@{
+    ViewData["Title"] = "Visits";
+}
+
+<h1>Visits</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+    <br />
+    @Html.ActionLink("Show all", "Index")
+
+</p>
+
+
+@using (Html.BeginForm("Index", "Visits", FormMethod.Get))
+{
+    <b>Search By:</b>
+    <br />
+    <text>Date of Visit</text>
+    @Html.RadioButton("SearchBy", "DateOfVisit", true)
+    <br />
+
+    <text>Complaint</text>
+    @Html.RadioButton("SearchBy", "Complaint")
+
+    <br />
+    @Html.TextBox("search")
+    <input type="submit" value="Search" />
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.doctor.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.patient.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfVisit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Complaint)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (item.doctor != null)
+                    {
+                        @Html.ActionLink(item.doctor.Name, "Details", "Doctors", new { id = item.DoctorId }, null)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.doctor.Name)
+                    }
+                </td>
+                <td>
+                    @if (item.patient != null)
+                    {
+                        @Html.ActionLink(item.patient.Name, "Details", "Patients", new { id = item.PatientId }, null)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.patient.Name)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfVisit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Complaint)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

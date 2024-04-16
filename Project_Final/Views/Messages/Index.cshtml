@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Project_Final.Models.Message>
+
+@{
+    ViewData["Title"] = "Messages";
+}
+
+<h1 class="text-center mb-4">Messages</h1>
+
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <form asp-action="Index" asp-controller="Messages" method="get">
+                <div class="form-row">
+                    <div class="col-md-4">
+                        <input type="date" class="form-control" name="startDate" placeholder="Start Date" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="date" class="form-control" name="endDate" placeholder="End Date" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" name="searchString" placeholder="Search Message" />
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a asp-action="Create" class="btn btn-primary mb-3">Create New Message</a>
+            <div class="list-group">
+                @foreach (var message in Model)
+                {
+                    <div class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="mb-1">Message #@message.Id</h5>
+                                <p class="mb-1">@message.Content</p>
+                                <small class="text-muted">@message.SentAt.ToString("MMMM dd, yyyy - hh:mm tt")</small>
+                            </div>
+                            <div>
+                                <a asp-action="Delete" asp-route-id="@message.Id" class="btn btn-danger btn-sm">Delete</a>
+                                <a asp-action="Create" asp-controller="Replies" asp-route-messageId="@message.Id" class="btn btn-primary btn-sm ml-2">Reply</a>
+                            </div>
+                        </div>
+                        @if (message.Replies != null && message.Replies.Any())
+                        {
+                            <hr />
+                            <h6>Replies:</h6>
+                            @foreach (var reply in message.Replies)
+                            {
+                                <div class="reply">
+                                    <div class="d-flex justify-content-between">
+                                        <p>@reply.Content</p>
+                                        <small class="text-muted">@reply.SentAt.ToString("MMMM dd, yyyy - hh:mm tt")</small>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

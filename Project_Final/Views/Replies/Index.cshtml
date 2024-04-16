@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Project_Final.Models.Reply>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Replies</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Reply</a>
+</p>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Content</th>
+                <th>Sent At</th>
+                <th>Message</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reply in Model)
+            {
+                <tr>
+                    <td>@reply.Content</td>
+                    <td>@reply.SentAt.ToString("MMMM dd, yyyy - hh:mm tt")</td>
+                    <td>@reply.Message.Id</td>
+                    <td>
+                        <a href="@Url.Action("Delete", new { id = reply.Id })" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this reply?')">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
